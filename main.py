@@ -33,7 +33,7 @@ grid=[]
 stack=[]
 closed=[]
 
-path={}
+solution_path={}
 
 #Grid 
 def build_grid(x,y,cell_width):
@@ -90,12 +90,65 @@ def maze_logic(x,y):
         cell=[]
 
         if(x+cell_width,y) not in closed and (x+cell_width,y)in grid:
-            cell.append("East")
+            cell.append("Right")
+
+        if(x-cell_width,y) not in closed and (x-cell_width,y)in grid:
+            cell.append("Left")
+
+        if(x,y+cell_width) not in closed and (x,y+cell_width)in grid:
+            cell.append("Bottom")
         
-        
+        if(x,y-cell_width) not in closed and (x,y-cell_width)in grid:
+            cell.append("Top")
+
+        if len(cell)>0:
+            current_cell = (random.choice(cell))
+
+            if (current_cell=="Right"):
+                right_wall(x,y)
+                solution_path[(x+cell_width,y)]=x,y
+                x=x+cell_width
+                closed.append((x,y))
+                stack.append((x,y))
+
+            elif (current_cell=="Left"):
+                left_wall(x,y)
+                solution_path[(x-cell_width,y)]=x,y
+                x=x-cell_width
+                closed.append((x,y))
+                stack.append((x,y))
+
+            elif (current_cell=="Top"):
+                top_wall(x,y)
+                solution_path[(x,y-cell_width)]=x,y
+                y=y-cell_width
+                closed.append((x,y))
+                stack.append((x,y))
+
+            elif (current_cell=="Bottom"):
+                bottom_wall(x,y)
+                solution_path[(x,y+cell_width)]=x,y
+                y=y+cell_width
+                closed.append((x,y))
+                stack.append((x,y))
+
+        else:
+            x,y=stack.pop()
+            move_cell(x,y)
+            time.sleep(0.07)
+            bactracker_cell(x,y)
+
+def tracer(x,y):
+    path_tracker(x,y)
+    while(x,y)!=(40,40):
+        x,y=solution_path[x,y]
+        path_tracker(x, y)
+        time.sleep(0.1)
 
 x, y = 40, 40
 build_grid(x,y,cell_width)
+maze_logic(x,y)
+tracer(400,400)
 
 #Pygame Loop Logic
 while running:
