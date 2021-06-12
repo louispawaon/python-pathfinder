@@ -4,7 +4,7 @@ import random
 import time
 
 #Variable Declaration
-width, height = 500, 600
+width, height = 500, 500
 icon = pygame.image.load('maze.png')
 color_GREEN = (178,255,102)
 color_PURPLE = (178,102,255)
