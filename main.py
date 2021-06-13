@@ -161,4 +161,5 @@ while running:
         if event.type == pygame.QUIT:
             running = False
     
-#BFA, DFS, A* to implement in future update
+#BFA, A* to implement in future update
+#Randomized DFS applied for now
